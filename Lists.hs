@@ -1,3 +1,5 @@
+--import System.Random
+
 -- Problem 1
 myLast :: [a] -> a
 myLast [] = error "Empty List"
@@ -105,3 +107,19 @@ removeAt n l
   | n <= 0    = error("Element to remove must be greater than 0")
   | null l    = error("Index out of bounds")
   | otherwise = head l : removeAt (n-1) (tail l)
+
+-- Problem 21
+insertAt :: a ->[a] -> Int -> [a]
+insertAt x l n = (take (n-1) l) ++ [x] ++ (drop (n-1) l)
+
+-- Problem 22
+range :: Int -> Int -> [Int]
+range n m
+  | n < 0 || m < 0 = error("Won't work for negative numbers")
+  | n > m          = error("Size of range is negative")
+  | otherwise      = take (m-n+1) (drop n [0..])
+
+-- Problem 23
+--generateUniqueRandom :: Int -> Int -> Int -> [Int]
+--generateUniqueRandom lower upper count = do
+--    gen <- getStdGen
