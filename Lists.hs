@@ -1,4 +1,3 @@
---import System.Random
 
 -- Problem 1
 myLast :: [a] -> a
@@ -119,7 +118,26 @@ range n m
   | n > m          = error("Size of range is negative")
   | otherwise      = take (m-n+1) (drop n [0..])
 
--- Problem 23
---generateUniqueRandom :: Int -> Int -> Int -> [Int]
---generateUniqueRandom lower upper count = do
---    gen <- getStdGen
+-- Problems 23,24,25 require random number generation, which is a bit of a pain in Haskell.
+
+-- Problem 26
+listify :: [a] -> [[a]]
+listify [] = []
+listify (x:xs) = [x] : (listify xs)
+
+combinations :: Int -> [a] -> [[a]]
+combinations n [] = []
+combinations n l@(x:xs)
+  | n == 0    = []
+  | n == 1    = listify l
+  | otherwise = map (\y -> x : y) (combinations (n-1) xs) ++ (combinations n xs)
+
+-- Problem 28
+qsort :: Ord a => [b] -> (b -> a) -> [b]
+qsort [] _ = []
+qsort (x:xs) order = let lessThan = [y | y <- xs, order y < order x]
+                         greaterThanOrEqual = [y | y <- xs, order y >= order x]
+                     in (qsort lessThan order) ++ [x] ++ (qsort greaterThanOrEqual order)
+
+lsort :: [[a]] -> [[a]]
+lsort l = qsort l length
